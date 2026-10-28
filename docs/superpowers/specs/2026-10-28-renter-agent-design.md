@@ -10,7 +10,7 @@ Alex lived this. A landlord (Seattle) claimed Alex owed about $1,000 for repairs
 
 **The thesis:** brokers are paid for the transaction, but renters need help for the whole relationship. This agent stays with you after you sign.
 
-## Full vision (for the demo opener, NOT v1)
+## Full vision (for the demo opener, NOT v1). Reasoning for each deferral in `docs/product-decisions.md`
 
 1. Hunts listings continuously (the good ones are gone in 24–48 hrs). *Next*
 2. Writes the brokers, books showings, reschedules when they flake. *Next*
