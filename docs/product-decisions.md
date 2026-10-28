@@ -89,3 +89,7 @@ The idea: before you sign (or while you live there), the agent reads public reco
 | Evidence file (photos) | Valuable (it's literally how I won in Seattle) but needs private file storage plus persistence to be trustworthy. First v2 item alongside accounts. |
 | Rights chat | The most "generic chatbot" feature. The lease card and letter already show the agent knows your rights. |
 | "Something broke" letters | Same engine as the charge letter. Shown as "coming next" rather than built thin. |
+
+## Decision 8: Rules verified against primary sources (2026-10-28)
+
+Checked each rule in `app/src/lib/rules.ts` against the NY Senate statute pages and NYC DCWP's FARE Act FAQ. Correction from the plan: the "up to twice the deposit" penalty is GOL §7-108(1-a)**(g)**, not (h). Forfeiture for missing the 14 days sits in (1-a)(e) with the deadline itself. Where I wasn't sure of the exact sub-letter, I cite §7-108(1-a) rather than guess.
