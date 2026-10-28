@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays, formatDate } from "./dates";
 import type { Lease } from "./lease-schema";
 import type { RuleId } from "./rules";
 
@@ -33,7 +33,7 @@ export function checkCharge(lease: Lease, input: ChargeInput): ChargeVerdict {
     if (statementOnTime === false) {
       ask = "return-full-deposit";
       findings.push(
-        { ruleId: "itemized-14-days", text: `The itemized statement came on ${input.statementDate}, after the ${deadline} deadline.` },
+        { ruleId: "itemized-14-days", text: `The itemized statement came on ${formatDate(input.statementDate!)}, after the ${formatDate(deadline)} deadline.` },
         { ruleId: "forfeit-if-late", text: "Because it was late, the landlord lost the right to keep any of the deposit." },
       );
     } else {
@@ -46,14 +46,14 @@ export function checkCharge(lease: Lease, input: ChargeInput): ChargeVerdict {
   } else if (deadlinePassed) {
     ask = "return-full-deposit";
     findings.push(
-      { ruleId: "itemized-14-days", text: `The landlord had until ${deadline} to send an itemized statement, and you haven't received one.` },
+      { ruleId: "itemized-14-days", text: `The landlord had until ${formatDate(deadline)} to send an itemized statement, and you haven't received one.` },
       { ruleId: "forfeit-if-late", text: "Missing that deadline means they lost the right to keep any of the deposit." },
     );
   } else {
     ask = "wait";
     findings.push({
       ruleId: "itemized-14-days",
-      text: `The landlord has until ${deadline} to send an itemized statement. If nothing arrives by then, they must return the full deposit.`,
+      text: `The landlord has until ${formatDate(deadline)} to send an itemized statement. If nothing arrives by then, they must return the full deposit.`,
     });
   }
 

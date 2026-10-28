@@ -80,3 +80,9 @@ describe("checkCharge", () => {
     expect(checkCharge(legalLease, { ...base, moveOutDate: "2026-12-25" }).deadline).toBe("2027-01-08");
   });
 });
+
+test("findings show dates in words, not ISO", () => {
+  const v = checkCharge(lease({ monthlyRent: 2500, securityDeposit: 2500 }), base);
+  expect(v.findings[0].text).toContain("October 14, 2026");
+  expect(v.findings[0].text).not.toContain("2026-10-14");
+});

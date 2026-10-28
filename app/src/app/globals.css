@@ -1,26 +1,63 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #ffffff;
+  --ink: #17233d;
+  --muted: #5a6478;
+  --rule: #dde1e8;
+  --wash: #f4f6f9;
+  --marker: #fbe96a;
+  --class-c: #a8261b;
+  --class-b: #a35a0c;
+  --class-a: #5a6478;
+  --action: #1f4fd1;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #121826;
+    --ink: #e8ecf3;
+    --muted: #a2abbd;
+    --rule: #2a3346;
+    --wash: #1a2233;
+    --marker: #6b5d12;
+    --class-c: #f08a80;
+    --class-b: #f0b469;
+    --class-a: #a2abbd;
+    --action: #8fb0ff;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-wash: var(--wash);
+  --color-marker: var(--marker);
+  --color-class-c: var(--class-c);
+  --color-class-b: var(--class-b);
+  --color-class-a: var(--class-a);
+  --color-action: var(--action);
+  --font-sans: var(--font-public-sans);
+  --font-serif: var(--font-source-serif);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-public-sans), system-ui, sans-serif;
+}
+
+/* The one bold move: problem clauses get marked up like a highlighter on paper. */
+.marked {
+  background: linear-gradient(transparent 12%, var(--marker) 12%, var(--marker) 88%, transparent 88%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.15em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--action);
+  outline-offset: 2px;
 }
