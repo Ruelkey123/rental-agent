@@ -2,6 +2,7 @@ import { generateText } from "ai";
 import { z } from "zod";
 import { MODEL } from "@/lib/ai";
 import { checkCharge } from "@/lib/charge";
+import { unknownCitations } from "@/lib/citations";
 import { LeaseSchema } from "@/lib/lease-schema";
 import { RULES } from "@/lib/rules";
 
@@ -59,8 +60,14 @@ What the letter asks for: ${ASKS[verdict.ask]}
 Style: firm, polite, plain English. Under 300 words. Ask for a response within 10 days. Use [brackets] for anything unknown, like the tenant's forwarding address. Don't cite any law not listed above, and don't threaten anything beyond what those rules say. Output only the letter.`;
 
   try {
-    const { text } = await generateText({ model: MODEL, prompt });
-    return Response.json({ letter: text });
+    // Prompting alone can't guarantee the model stays inside our rules, so check, and retry once.
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const { text } = await generateText({ model: MODEL, prompt });
+      const stray = unknownCitations(text);
+      if (stray.length === 0) return Response.json({ letter: text });
+      console.error("letter cited law outside RULES:", stray.join(", "));
+    }
+    throw new Error("letter kept citing law outside RULES");
   } catch (cause) {
     console.error("letter drafting failed:", cause instanceof Error ? cause.message : cause);
     return Response.json({ error: "The letter writer is unavailable right now. Try again in a minute." }, { status: 502 });

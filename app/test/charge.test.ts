@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { checkCharge, type ChargeInput } from "@/lib/charge";
+import { checkCharge, headline, type ChargeInput } from "@/lib/charge";
 import { lease } from "./fixtures";
 
 const base: ChargeInput = {
@@ -85,4 +85,18 @@ test("findings show dates in words, not ISO", () => {
   const v = checkCharge(lease({ monthlyRent: 2500, securityDeposit: 2500 }), base);
   expect(v.findings[0].text).toContain("October 14, 2026");
   expect(v.findings[0].text).not.toContain("2026-10-14");
+});
+
+test("statement received with no date does not claim it was on time", () => {
+  const v = checkCharge(lease({ monthlyRent: 2500, securityDeposit: 2500 }), { ...base, statementReceived: true, statementDate: null });
+  expect(v.statementOnTime).toBeNull();
+  expect(v.findings[0].text).not.toMatch(/arrived in time|met the deadline/i);
+  expect(v.findings[0].text).toContain("October 14, 2026");
+});
+
+test("headline never says they met the deadline when the date is unknown", () => {
+  const v = checkCharge(lease({ monthlyRent: 2500, securityDeposit: 2500 }), { ...base, statementReceived: true, statementDate: null });
+  expect(headline(v)).not.toMatch(/met the deadline/i);
+  const onTime = checkCharge(lease({ monthlyRent: 2500, securityDeposit: 2500 }), { ...base, statementReceived: true, statementDate: "2026-10-10" });
+  expect(headline(onTime)).toMatch(/met the deadline/i);
 });

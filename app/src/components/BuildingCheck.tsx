@@ -21,7 +21,7 @@ export function BuildingCheck({ address }: { address: Lease["address"] }) {
     const qs = new URLSearchParams({ house: address.houseNumber, street: address.streetName, zip: address.zip ?? "" });
     fetch(`/api/building?${qs}`)
       .then(async (res) => {
-        const body = await res.json();
+        const body = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(body.error);
         setState({ kind: "done", data: body });
       })

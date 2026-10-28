@@ -1,9 +1,9 @@
 import { generateText, Output } from "ai";
 import { MODEL } from "@/lib/ai";
-import { LeaseSchema } from "@/lib/lease-schema";
+import { LeaseSchema, normalizeLease } from "@/lib/lease-schema";
 import { RULES } from "@/lib/rules";
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 const MAX_BYTES = 4 * 1024 * 1024;
 
@@ -17,7 +17,8 @@ ${Object.values(RULES)
   .map((r) => `- ${r.id}: ${r.plain}`)
   .join("\n")}
 
-If no clause breaks a rule, return an empty aiFlags list. Don't flag a rule just because the lease is silent on it.`;
+If no clause breaks a rule, return an empty aiFlags list. Don't flag a rule just because the lease is silent on it.
+In explanations, don't name any statute, code section, or case. Just explain in plain English.`;
 
 const error = (status: number, message: string) => Response.json({ error: message }, { status });
 
@@ -42,7 +43,7 @@ export async function POST(req: Request) {
         },
       ],
     });
-    return Response.json(output);
+    return Response.json(normalizeLease(output));
   } catch (cause) {
     // Log the failure, never the lease.
     console.error("lease extraction failed:", cause instanceof Error ? cause.message : cause);

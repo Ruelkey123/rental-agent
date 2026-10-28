@@ -36,6 +36,12 @@ export function checkCharge(lease: Lease, input: ChargeInput): ChargeVerdict {
         { ruleId: "itemized-14-days", text: `The itemized statement came on ${formatDate(input.statementDate!)}, after the ${formatDate(deadline)} deadline.` },
         { ruleId: "forfeit-if-late", text: "Because it was late, the landlord lost the right to keep any of the deposit." },
       );
+    } else if (statementOnTime === null) {
+      ask = "itemized-receipts";
+      findings.push({
+        ruleId: "itemized-14-days",
+        text: `Without the date you got the statement, we can't tell if it was on time. If it arrived after ${formatDate(deadline)}, the landlord lost the right to keep any of the deposit. Either way, ask them to back every charge with receipts or invoices.`,
+      });
     } else {
       ask = "itemized-receipts";
       findings.push({
@@ -67,4 +73,11 @@ export function checkCharge(lease: Lease, input: ChargeInput): ChargeVerdict {
   }
 
   return { deadline, deadlinePassed, statementOnTime, depositOverCap, findings, ask };
+}
+
+export function headline(v: ChargeVerdict): string {
+  if (v.ask === "return-full-deposit") return "Your landlord missed the deadline. You can ask for your whole deposit back.";
+  if (v.ask === "wait") return "Your landlord still has time to send an itemized statement.";
+  if (v.statementOnTime === null) return "Make them prove every charge, and find the date that statement arrived.";
+  return "They met the deadline, so make them prove every charge.";
 }

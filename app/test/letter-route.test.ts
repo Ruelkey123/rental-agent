@@ -46,4 +46,19 @@ describe("POST /api/letter", () => {
     expect(prompt).not.toContain("§238-a");
     expect(prompt).not.toContain("FARE Act");
   });
+
+  test("a letter citing law outside RULES is rewritten once", async () => {
+    generateText
+      .mockResolvedValueOnce({ text: "Under NYC Admin Code §27-2005 you owe me." })
+      .mockResolvedValueOnce({ text: "Under NY Gen. Oblig. Law §7-108(1-a)(e) you owe me." });
+    const res = await post({ lease: theLease, charge });
+    expect(await res.json()).toEqual({ letter: "Under NY Gen. Oblig. Law §7-108(1-a)(e) you owe me." });
+    expect(generateText).toHaveBeenCalledTimes(2);
+  });
+
+  test("a letter that keeps citing outside law is a 502", async () => {
+    generateText.mockResolvedValue({ text: "Under §27-2005 you owe me." });
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    expect((await post({ lease: theLease, charge })).status).toBe(502);
+  });
 });

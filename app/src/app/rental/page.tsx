@@ -10,6 +10,7 @@ import { LeaseCard } from "@/components/LeaseCard";
 import { Shell } from "@/components/Shell";
 import { Timeline } from "@/components/Timeline";
 import { computeFlags } from "@/lib/flags";
+import { looksUnreadable } from "@/lib/lease-schema";
 import { clearLease } from "@/lib/storage";
 import { buildTimeline } from "@/lib/timeline";
 import { useLease } from "@/lib/use-lease";
@@ -21,6 +22,31 @@ export default function RentalPage() {
   const events = useMemo(() => (lease ? buildTimeline(lease) : []), [lease]);
 
   if (!lease) return <Shell><p className="pt-10 text-muted">Loading your rental…</p></Shell>;
+
+  if (looksUnreadable(lease)) {
+    return (
+      <Shell>
+        <section className="pt-10" role="alert">
+          <h1 className="text-3xl font-semibold tracking-tight">We couldn&rsquo;t read lease terms from this PDF</h1>
+          <p className="mt-3 max-w-[60ch] leading-relaxed text-muted">
+            We didn&rsquo;t find rent, dates, a deposit, or an address. If it&rsquo;s a photo or a scan, try a clearer copy or the
+            PDF your landlord emailed you. If it isn&rsquo;t a lease, upload the lease instead.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              clearLease();
+              router.push("/");
+            }}
+            className="mt-6 rounded-md bg-ink px-4 py-2.5 font-medium text-paper hover:opacity-90"
+          >
+            Upload a different PDF
+          </button>
+        </section>
+        <Disclaimer />
+      </Shell>
+    );
+  }
 
   const where = lease.address ? `${lease.address.line1}${lease.address.unit ? `, ${lease.address.unit}` : ""}` : "Your rental";
 

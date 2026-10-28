@@ -49,4 +49,11 @@ describe("POST /api/lease", () => {
     expect(call.model).toBe("anthropic/claude-sonnet-5.5");
     expect(call.messages[0].content[1]).toMatchObject({ type: "file", mediaType: "application/pdf" });
   });
+
+  test("malformed model values are normalized before they reach the browser", async () => {
+    generateText.mockResolvedValue({ output: lease({ leaseEnd: "2027-01", landlordName: "" }) });
+    const body = await (await POST(upload(pdf(1000)))).json();
+    expect(body.leaseEnd).toBeNull();
+    expect(body.landlordName).toBeNull();
+  });
 });

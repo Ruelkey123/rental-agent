@@ -26,7 +26,7 @@ export function UploadLease() {
     form.append("file", file);
     try {
       const res = await fetch("/api/lease", { method: "POST", body: form });
-      const body = await res.json();
+      const body = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(body.error ?? "The lease couldn't be read.");
       saveLease(body as Lease);
       router.push("/rental");

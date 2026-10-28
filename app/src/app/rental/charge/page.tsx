@@ -4,19 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { Disclaimer } from "@/components/Disclaimer";
 import { Shell } from "@/components/Shell";
-import { checkCharge, type ChargeInput, type ChargeVerdict } from "@/lib/charge";
+import { checkCharge, headline, type ChargeInput, type ChargeVerdict } from "@/lib/charge";
 import { todayISO } from "@/lib/dates";
 import { RULES } from "@/lib/rules";
 import { useLease } from "@/lib/use-lease";
 
 const day = (d: string) =>
   new Date(`${d}T00:00:00`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-
-const HEADLINES: Record<ChargeVerdict["ask"], string> = {
-  "return-full-deposit": "Your landlord missed the deadline. You can ask for your whole deposit back.",
-  "itemized-receipts": "They met the deadline, so make them prove every charge.",
-  wait: "Your landlord still has time to send an itemized statement.",
-};
 
 const field = "mt-1 w-full rounded-md border border-ink/25 bg-paper px-3 py-2";
 
@@ -34,8 +28,8 @@ export default function ChargePage() {
     setLetter({ kind: "writing", text: "" });
     try {
       const res = await fetch("/api/letter", { method: "POST", body: JSON.stringify({ lease, charge: input }) });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error);
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || !body.letter) throw new Error(body.error);
       setLetter({ kind: "done", text: body.letter });
     } catch (e) {
       setLetter({ kind: "error", text: e instanceof Error && e.message ? e.message : "The letter couldn't be written." });
@@ -109,7 +103,7 @@ export default function ChargePage() {
 
       {verdict && charge && (
         <section className="mt-12" aria-live="polite">
-          <h2 className="text-2xl leading-snug font-semibold">{HEADLINES[verdict.ask]}</h2>
+          <h2 className="text-2xl leading-snug font-semibold">{headline(verdict)}</h2>
           <p className="mt-2 text-muted">
             Deadline for the itemized statement: <strong className="text-ink">{day(verdict.deadline)}</strong>, 14 days after you
             moved out.

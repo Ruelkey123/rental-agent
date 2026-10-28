@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { unknownCitations } from "./citations";
 
 // Every field is nullable: a scanned or non-lease PDF should produce
 // "not found", never invented values.
@@ -43,3 +44,44 @@ export const LeaseSchema = z.object({
 });
 
 export type Lease = z.infer<typeof LeaseSchema>;
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function validDate(d: string | null): string | null {
+  if (!d || !ISO_DATE.test(d)) return null;
+  const parsed = new Date(`${d}T00:00:00Z`);
+  return !isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === d ? d : null;
+}
+
+const text = (s: string | null) => (s && s.trim() ? s.trim() : null);
+
+// The model is asked for clean values but isn't guaranteed to return them.
+// Anything malformed becomes null so the page shows "Not found" instead of crashing.
+export function normalizeLease(lease: Lease): Lease {
+  const a = lease.address;
+  const address =
+    a && text(a.houseNumber) && text(a.streetName)
+      ? { ...a, line1: text(a.line1) ?? `${a.houseNumber} ${a.streetName}`, zip: a.zip ? a.zip.trim().slice(0, 5) : null }
+      : null;
+  const due = lease.rentDueDay;
+  return {
+    ...lease,
+    landlordName: text(lease.landlordName),
+    landlordContact: text(lease.landlordContact),
+    repairsResponsibility: text(lease.repairsResponsibility),
+    tenantNames: lease.tenantNames.filter((n) => n.trim()),
+    utilitiesPaidByTenant: lease.utilitiesPaidByTenant.filter((u) => u.trim()),
+    address,
+    leaseStart: validDate(lease.leaseStart),
+    leaseEnd: validDate(lease.leaseEnd),
+    rentDueDay: due != null && due >= 1 && due <= 31 ? due : null,
+    aiFlags: lease.aiFlags.filter((f) => unknownCitations(f.explanation).length === 0),
+  };
+}
+
+// True when the extraction found none of the terms that make a lease a lease.
+export function looksUnreadable(lease: Lease): boolean {
+  return (
+    lease.monthlyRent == null && lease.leaseStart == null && lease.leaseEnd == null && lease.securityDeposit == null && lease.address == null
+  );
+}
