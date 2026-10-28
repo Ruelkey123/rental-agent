@@ -31,9 +31,10 @@ The single demo story: *"My landlord is trying to keep $1,000 of my deposit. The
 2. **Ask about my lease and rights (small).** A chat that answers questions like "Can they enter without notice?" using the lease text plus the NYC rules reference below, and quotes the clause it relied on.
 3. **Evidence file (small).** Add photos with a note. Each item gets a timestamp. It's grouped simply (move-in, issue, move-out). This is the Seattle lesson: the proof should exist *before* the fight.
 4. **"They're charging me" (full).** Enter the charge: amount, what they say it's for, move-out date, and whether you received an itemized statement and when. The agent checks it against the deposit rules (14-day deadline, itemization, inspection offer) and drafts a firm letter demanding itemized costs and receipts. The letter cites your lease, the rule, and your evidence items.
-5. **"Something broke" (small).** Describe the issue, and it drafts a repair request citing the lease and NYC habitability rules, plus a firmer follow-up if there's no response.
+5. **Building check (small, automatic).** Uses the address from the lease to pull the building's HPD violations from NYC Open Data (dataset `wvxf-dwi5`, no key needed): open violations by class A/B/C, plus a few recent examples. Shown on the lease card, and usable as evidence in repair letters. Show the data plainly and don't invent a "safety score." Handle "address not found" honestly.
+6. **"Something broke" (small).** Describe the issue, and it drafts a repair request citing the lease and NYC habitability rules, plus a firmer follow-up if there's no response.
 
-Priority if time runs short: 1 → 4 → 3 → 2 → 5. Items 1 and 4 must work end to end. The others may be thin.
+Priority if time runs short: 1 → 4 → 5 → 3 → 2 → 6. Items 1 and 4 must work end to end. The others may be thin.
 
 ## NYC rules the agent relies on
 
@@ -51,6 +52,7 @@ Every output carries a short "this is not legal advice" line.
 ## Non-goals (the "what I chose not to build" story)
 
 - Listing search, booking showings, qualification check (vision 1–3).
+- Landlord portfolio, rent-stabilization status, legal-rent check (see Decision 6 in product-decisions.md).
 - Accounts and logins. Multiple apartments. Landlord or broker features.
 - Actually sending emails or letters. It drafts, and the renter sends.
 - Reminders, calendar, notifications.

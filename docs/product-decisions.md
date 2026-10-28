@@ -60,3 +60,19 @@ An agent that stays on the renter's side for the whole journey, from search to m
 | Cities other than NYC | Tenant law is local. One city done right beats 50 done badly. |
 | Full legal database | A small hand-checked list of NYC rules, cited in the output. Being confidently wrong about the law is the worst failure. |
 | Landlord or broker features | This agent is on the renter's side only. |
+
+## Decision 6: Building vetting. Build the violations check, push the rest
+
+![Building vetting design: HPD violations, landlord track record, rent stabilization, legal rent](img/building-vetting.png)
+
+The idea: before you sign (or while you live there), the agent reads public records about your building and landlord.
+
+| Item | Decision | Why |
+|---|---|---|
+| **HPD violation history, by hazard class** | **Build in v1** | NYC Open Data publishes every HPD violation with its class (A = non-hazardous, B = hazardous, C = immediately hazardous) and open/closed status. Free, no API key, tested live 2026-10-28. It also **costs the renter nothing**: the agent already has the address from the lease, so it's automatic. And it strengthens the repair letter ("your building already has 12 open Class C violations"). |
+| Landlord's track record across every building they own | **Later** | Owner names come from HPD registration data, but linking one landlord across buildings means fuzzy matching of LLCs and shell companies. JustFix's "Who Owns What" already does this well. Partnering or linking to it beats rebuilding it badly in an afternoon. |
+| Likely rent-stabilization status | **Later** | There's no official list of stabilized units. You can guess from building age and unit count, or from tax-bill data, but a wrong "you're stabilized!" could send a renter into a fight they lose. Too risky to ship without careful sourcing. |
+| Whether the asking rent is legal | **Later** | Needs the unit's official rent history from the state housing agency (DHCR), which only the tenant can request. Cheap v2: the agent tells you how to request it and drafts the request. |
+| "Worst Landlord Watchlist" stat | **Don't quote until verified** | Follows the "confidently wrong" anti-goal. Any statistic shown to users or the panel gets checked against the Public Advocate's published list first. |
+
+**What would change my mind:** for landlord track record, an API or partnership with Who Owns What. For rent stabilization, a reliable building-level data source.
