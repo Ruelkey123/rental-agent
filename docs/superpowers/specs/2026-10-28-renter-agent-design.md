@@ -25,16 +25,24 @@ A renter in **New York City** with a signed or about-to-sign lease. Not landlord
 
 ## v1: what it does
 
-The single demo story: *"My landlord is trying to keep $1,000 of my deposit. The agent helped me make them prove it."*
+**Name:** Rental Agent.
 
-1. **Read my lease (full).** Upload a lease PDF. The agent produces a **lease card**: rent, due date, lease start/end, renewal/notice deadline, security deposit, landlord name/contact, who handles repairs and utilities. Clauses that are risky or likely illegal under NY/NYC law get flagged in plain English (for example, a deposit over one month's rent, or a broker fee charged to the tenant).
-2. **Ask about my lease and rights (small).** A chat that answers questions like "Can they enter without notice?" using the lease text plus the NYC rules reference below, and quotes the clause it relied on.
-3. **Evidence file (small).** Add photos with a note. Each item gets a timestamp. It's grouped simply (move-in, issue, move-out). This is the Seattle lesson: the proof should exist *before* the fight.
-4. **"They're charging me" (full).** Enter the charge: amount, what they say it's for, move-out date, and whether you received an itemized statement and when. The agent checks it against the deposit rules (14-day deadline, itemization, inspection offer) and drafts a firm letter demanding itemized costs and receipts. The letter cites your lease, the rule, and your evidence items.
-5. **Building check (small, automatic).** Uses the address from the lease to pull the building's HPD violations from NYC Open Data (dataset `wvxf-dwi5`, no key needed): open violations by class A/B/C, plus a few recent examples. Shown on the lease card, and usable as evidence in repair letters. Show the data plainly and don't invent a "safety score." Handle "address not found" honestly.
-6. **"Something broke" (small).** Describe the issue, and it drafts a repair request citing the lease and NYC habitability rules, plus a firmer follow-up if there's no response.
+**The single demo story:** *"Upload your lease → here's your rental year and what I'm watching for you → fast-forward to move-out → 'they're charging me $1,000' → the agent knows the deadline passed and writes the letter."* About 90 seconds.
 
-Priority if time runs short: 1 → 4 → 5 → 3 → 2 → 6. Items 1 and 4 must work end to end. The others may be thin.
+**Core idea:** the agent works for you *while you rent*, not just at signing. After upload you land on a home base ("Your Rental"), not a one-off report.
+
+1. **Read my lease.** Upload a lease PDF (or use the sample). The agent produces a **lease card**: rent, due date, lease start/end, renewal/notice deadline, security deposit, landlord name/contact/address, who handles repairs and utilities. Clauses that are risky or likely illegal under NY/NYC law get flagged in plain English (for example, a deposit over one month's rent, or a broker fee charged to the tenant), each with the rule it breaks.
+2. **"They're charging me."** Enter the charge: amount, what they say it's for, move-out date, and whether/when you received an itemized statement. The agent checks it against the deposit rules (14-day itemization deadline, deposit cap, inspection offer) and gives a plain verdict on what the landlord did or didn't do right, plus a firm, ready-to-send letter demanding itemized costs and receipts (or return of the deposit if the deadline was missed). The letter cites the lease and the specific rule.
+3. **Building check.** Uses the address from the lease to pull the building's HPD violations from NYC Open Data (dataset `wvxf-dwi5`, no key needed): open violations by class A/B/C, plus a few recent examples. Re-fetched each time "Your Rental" loads. Show the data plainly, with no invented "safety score." Handle "address not found" honestly.
+4. **"Your Rental" home base, the "works for you while you rent" layer.**
+   - **Rental timeline** derived from the lease card: rent due dates, renewal notice window, lease end, and the 14-day post-move-out itemization deadline. Each date says what the agent will help with when it arrives.
+   - **"Add to my calendar":** downloads a standard calendar file (.ics) of those dates. That's real reminders with no accounts.
+   - **Action buttons:** "They're charging me" (live). "Something broke" is shown as clearly labeled *coming next*, not as a fake button.
+5. **Sample lease.** A realistic sample NYC lease PDF with planted problems (for example, a 2-month deposit, a broker fee charged to the tenant, entry without notice) and a real NYC address with some HPD violations. Reached from a "Try with a sample lease" button.
+
+Priority if time runs short: 1 → 5 → 2 → 4 → 3. Items 1 and 2 must work end to end.
+
+**Cut from v1 (2026-10-28):** evidence file, rights chat, "something broke." They are recorded in product-decisions.md (Decision 7).
 
 ## NYC rules the agent relies on
 

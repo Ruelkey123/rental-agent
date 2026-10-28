@@ -76,3 +76,16 @@ The idea: before you sign (or while you live there), the agent reads public reco
 | "Worst Landlord Watchlist" stat | **Don't quote until verified** | Follows the "confidently wrong" anti-goal. Any statistic shown to users or the panel gets checked against the Public Advocate's published list first. |
 
 **What would change my mind:** for landlord track record, an API or partnership with Who Owns What. For rent stabilization, a reliable building-level data source.
+
+## Decision 7: Focus v1 on three jobs plus a "works for you while you rent" home base
+
+**Keep:** read my lease, "they're charging me," building check. These carry the thesis, the lived story, and real public data.
+
+**Add:** "Your Rental" home base with a lease-derived timeline and an "Add to my calendar" (.ics) download. It shows the agent staying with you without accounts, notifications, or fake features. The calendar file is the honest answer to "how does it remind me?"
+
+**Cut for now:**
+| Cut | Why |
+|---|---|
+| Evidence file (photos) | Valuable (it's literally how I won in Seattle) but needs private file storage plus persistence to be trustworthy. First v2 item alongside accounts. |
+| Rights chat | The most "generic chatbot" feature. The lease card and letter already show the agent knows your rights. |
+| "Something broke" letters | Same engine as the charge letter. Shown as "coming next" rather than built thin. |
