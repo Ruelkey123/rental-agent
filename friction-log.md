@@ -36,3 +36,17 @@ Screenshots go in `./screenshots/`.
 - **Then:** after the rename, the project switcher at the top of the AI Gateway page still said **"app"**, even after a refresh. The CLI (`vercel project ls`) showed only one project, correctly named `rental-agent`. So the rename worked, but part of the dashboard kept the stale name. That made me doubt whether the rename had saved at all.
 - **Why it matters:** monorepos and `app/` or `web/` subfolders are common, so this default probably catches a lot of people. And the bad URL is the one you share first. The fix seems small: default to the repo name, and show the name field next to Root Directory so you see the result before you deploy.
 - Screenshots: `screenshots/stale-project-name-after-rename.png` (header still says "app")
+
+**🔴 "Free" AI Gateway credit needs a credit card before the first request**
+- **Trying to:** use AI Gateway's free tier from my deployed app. The app authenticates automatically via Vercel's OIDC token, so no API key was needed.
+- **What happened:** the live lease reader failed instantly (HTTP 502 in 1.4s). The app only shows a friendly error, so I checked the function logs: *"AI Gateway requires a valid credit card on file to service requests. Please visit … to add a card and unlock your free credits."*
+- **What I expected:** the dashboard says "Free AI Gateway Credit includes $5 each month." The card sentence right after it ("Card verification is required, but your card won't be charged") sits next to the *Buy Paid Credit* link, so I read it as applying to paid credit only. The assignment also says you shouldn't need to buy anything. Nothing told me before deploying that free requests would be refused without a card.
+- **How I moved forward:** [fill in: added a card / switched provider]
+- **What worked well 🟢:** the error message itself is excellent. It says exactly what's wrong and includes a direct link to fix it. The problem is that you only see it in the logs, after deploying.
+- **Suggestion:** put "add a card to activate free credit" as an explicit step 1 on the Get Started page, or show a banner on the project when a deployment calls AI Gateway with no card on file.
+
+**🟡 `vercel logs --level error` returned nothing for an error**
+- **Trying to:** find why `/api/lease` returned a 502, from the CLI.
+- **What happened:** `vercel logs --level error --since 10m` said "No logs found." The same command without `--level` showed the line, labeled `error`.
+- **Expected:** filtering by error level shows error-level lines. (Possibly it filters on the request's status or level rather than the log line's level, but that isn't obvious.)
+- **How I moved forward:** dropped the filter.
