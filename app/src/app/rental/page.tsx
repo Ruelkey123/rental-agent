@@ -53,18 +53,14 @@ export default function RentalPage() {
 
   return (
     <Shell>
-      <section className="pt-8 pb-10">
+      <section className="pt-8 pb-6">
         <p className="text-muted">Your rental</p>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">{where}</h1>
-        <p className="mt-3 max-w-[60ch] leading-relaxed text-muted">
-          I&rsquo;ve read your lease. Here&rsquo;s what to push back on, the dates I&rsquo;m keeping for you, and what the city
-          knows about your building.
-        </p>
       </section>
 
       <div className="space-y-14">
+        <ButlerChat lease={lease} flagCount={flags.length} />
         <FlagList flags={flags} />
-        <ButlerChat lease={lease} />
         <Timeline events={events} leaseEnd={lease.leaseEnd} />
         <BuildingCheck address={lease.address} />
 

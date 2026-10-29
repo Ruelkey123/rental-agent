@@ -58,7 +58,7 @@ function DraftCard({ draft, to }: { draft: Draft; to: string | null }) {
   );
 }
 
-export function ButlerChat({ lease }: { lease: Lease }) {
+export function ButlerChat({ lease, flagCount }: { lease: Lease; flagCount: number }) {
   const to = extractEmail(lease.landlordContact);
   const [input, setInput] = useState("");
   const { messages, sendMessage, status, error, regenerate } = useChat({
@@ -73,15 +73,33 @@ export function ButlerChat({ lease }: { lease: Lease }) {
   }
 
   return (
-    <section aria-labelledby="butler-heading">
-      <h2 id="butler-heading" className="text-xl font-semibold">
-        Ask your rental agent
-      </h2>
-      <p className="mt-1 text-sm text-muted">
-        Something broke, you want to book an amenity, or you&rsquo;re not sure what your lease says. I&rsquo;ll write the request and you hit send.
-      </p>
+    <section aria-labelledby="butler-heading" className="rounded-lg border-2 border-ink p-4 sm:p-5">
+      <div className="flex items-center gap-2">
+        <span className="size-2 rounded-full bg-[#2f9e5b]" aria-hidden="true" />
+        <h2 id="butler-heading" className="text-lg font-semibold">
+          Your rental agent
+        </h2>
+      </div>
 
-      <div className="mt-4 rounded-md border border-rule bg-wash p-4">
+      <div className="mt-3 space-y-2 leading-relaxed">
+        <p>
+          I&rsquo;ve read your lease for {lease.address ? lease.address.line1 : "your apartment"}.{" "}
+          {flagCount > 0 ? (
+            <>
+              I found{" "}
+              <a href="#flags-heading" className="font-medium underline">
+                {flagCount} {flagCount === 1 ? "clause" : "clauses"} worth pushing back on
+              </a>
+              .
+            </>
+          ) : (
+            "Nothing in it breaks the rules I check."
+          )}
+        </p>
+        <p>From here on I&rsquo;m your go-to: tell me what broke, what you want to book, or what you&rsquo;re wondering about. I&rsquo;ll write the request and you hit send.</p>
+      </div>
+
+      <div className="mt-4">
         {messages.length === 0 && (
           <div className="flex flex-wrap gap-2">
             {STARTERS.map((s) => (
