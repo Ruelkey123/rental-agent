@@ -59,7 +59,7 @@ export default function RentalPage() {
       </section>
 
       <div className="space-y-14">
-        <ButlerChat lease={lease} flagCount={flags.length} />
+        <ButlerChat lease={lease} />
         <FlagList flags={flags} />
         <Timeline events={events} leaseEnd={lease.leaseEnd} />
         <BuildingCheck address={lease.address} />

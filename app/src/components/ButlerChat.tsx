@@ -58,7 +58,7 @@ function DraftCard({ draft, to }: { draft: Draft; to: string | null }) {
   );
 }
 
-export function ButlerChat({ lease, flagCount }: { lease: Lease; flagCount: number }) {
+export function ButlerChat({ lease }: { lease: Lease }) {
   const to = extractEmail(lease.landlordContact);
   const [input, setInput] = useState("");
   const { messages, sendMessage, status, error, regenerate } = useChat({
@@ -81,23 +81,9 @@ export function ButlerChat({ lease, flagCount }: { lease: Lease; flagCount: numb
         </h2>
       </div>
 
-      <div className="mt-3 space-y-2 leading-relaxed">
-        <p>
-          I&rsquo;ve read your lease for {lease.address ? lease.address.line1 : "your apartment"}.{" "}
-          {flagCount > 0 ? (
-            <>
-              I found{" "}
-              <a href="#flags-heading" className="font-medium underline">
-                {flagCount} {flagCount === 1 ? "clause" : "clauses"} worth pushing back on
-              </a>
-              .
-            </>
-          ) : (
-            "Nothing in it breaks the rules I check."
-          )}
-        </p>
-        <p>From here on I&rsquo;m your go-to: tell me what broke, what you want to book, or what you&rsquo;re wondering about. I&rsquo;ll write the request and you hit send.</p>
-      </div>
+      <p className="mt-3 leading-relaxed">
+        Ask me anything rental related. Something broke, you want to book an amenity, or you&rsquo;re wondering what your lease says. I&rsquo;ll handle the request and you hit send.
+      </p>
 
       <div className="mt-4">
         {messages.length === 0 && (
