@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { BuildingCheck } from "@/components/BuildingCheck";
+import { ButlerChat } from "@/components/ButlerChat";
 import { Disclaimer } from "@/components/Disclaimer";
 import { FlagList } from "@/components/FlagList";
 import { LeaseCard } from "@/components/LeaseCard";
@@ -63,6 +64,7 @@ export default function RentalPage() {
 
       <div className="space-y-14">
         <FlagList flags={flags} />
+        <ButlerChat lease={lease} />
         <Timeline events={events} leaseEnd={lease.leaseEnd} />
         <BuildingCheck address={lease.address} />
 
@@ -75,10 +77,10 @@ export default function RentalPage() {
               <p className="font-semibold">They&rsquo;re charging me</p>
               <p className="mt-1 text-sm opacity-80">Check a deposit deduction against the rules and get a letter to send.</p>
             </Link>
-            <div className="rounded-md border border-dashed border-rule p-5" aria-disabled="true">
-              <p className="font-semibold text-muted">Something broke</p>
-              <p className="mt-1 text-sm text-muted">Coming next: a repair request that cites your lease and the law.</p>
-            </div>
+            <a href="#butler-heading" className="rounded-md border border-ink/25 p-5 hover:bg-wash">
+              <p className="font-semibold">Something broke, or I need something</p>
+              <p className="mt-1 text-sm text-muted">Tell your rental agent. It writes the work order or amenity request for you.</p>
+            </a>
           </div>
         </section>
         <LeaseCard lease={lease} />

@@ -101,3 +101,17 @@ Checked each rule in `app/src/lib/rules.ts` against the NY Senate statute pages 
 **Why it was a one-line change:** the model only extracts lease facts and writes letter prose. Every legal judgment (deadlines, caps, verdicts) is deterministic code with tests, and any citation outside the checked rules list is rejected in code. So a different model can't change what the app says about the law. That's the architecture paying off.
 
 **What would change my mind:** if extraction quality on real leases is noticeably worse, paid credits for a stronger model are a cheap upgrade. AI Gateway makes it a one-string swap.
+
+## Decision 10: Add the rental-agent chat, a personal butler (2026-10-29)
+
+**What:** a chat on "Your Rental" that writes **friendly work orders** ("My faucet is dripping") and **amenity requests** ("Book the rooftop grill Saturday at 6"), and answers lease questions. Each draft has **Open in email** (addressed to the landlord email from the lease), **Copy**, and for amenities, **Add to my calendar**.
+
+**Why now:** after using v1, the gap was clear. The product helped at the start and end of a lease, but not in the 12 months in between, which is the actual "stays with you" promise. Day to day, renters need small stuff handled with low effort, not legal letters.
+
+**Tone call:** requests are warm and neighborly, with **no legal language for small fixes**. Hostile letters damage the landlord relationship a renter has to live with. For serious problems (no heat, leaks, mold, pests, locks), the request stays friendly but is marked urgent, and the chat tells the *renter* their rights privately ("you have a right to a habitable apartment"). The renter knows their power; the landlord gets a polite ask. Rights only come from the verified rules list, and drafts citing anything else are sent back to the model in code.
+
+**What I chose not to fake:** the agent doesn't actually **file** or **book** anything. Buildings use BuildingLink, AppFolio, Yardi, and others, with no open APIs. A fake "Booked ✅" would break trust the first time it didn't happen. It says plainly "I can't book directly," writes the request, and the renter hits send.
+
+**This reverses part of Decision 7** (which cut the rights chat as "generic chatbot"). The difference: this chat's job is to *produce an action* (a sendable request), not just to talk.
+
+**Next:** real filing and booking through property-management integrations (a partnership question), sending on the renter's behalf with approval, tracking whether the landlord replied, and nudging a follow-up after a few days.
