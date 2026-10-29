@@ -46,7 +46,7 @@ describe("POST /api/lease", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual(extracted);
     const call = generateText.mock.calls[0][0];
-    expect(call.model).toBe("anthropic/claude-sonnet-5.5");
+    expect(call.model).toBe("google/gemini-2.5-flash");
     expect(call.messages[0].content[1]).toMatchObject({ type: "file", mediaType: "application/pdf" });
   });
 

@@ -52,3 +52,9 @@ Screenshots go in `./screenshots/`.
 - **What happened:** `vercel logs --level error --since 10m` said "No logs found." The same command without `--level` showed the line, labeled `error`.
 - **Expected:** filtering by error level shows error-level lines. (Possibly it filters on the request's status or level rather than the log line's level, but that isn't obvious.)
 - **How I moved forward:** dropped the filter.
+
+**🟡 After adding the card: "Free tier users do not have access to this model"**
+- **What happened:** with the card added, the next request failed with a different log message: *"Free tier users do not have access to this model."* My app used Claude Sonnet 5.5. AI Gateway's free tier includes no Claude models at all.
+- **What I expected:** to know which models are free *before* choosing one. The model list API (`/v1/models`) has no free-tier field. The docs only link to a filtered web page, so I had to dig the free list out of that page.
+- **How I moved forward:** switched to `google/gemini-2.5-flash` (free tier, native PDF input, structured output), which was a one-line change. AI Gateway's single model string makes swapping painless. 🟢
+- **Suggestion:** add `availableToFreeTier` to the `/v1/models` API response, and put a "Free tier" badge next to model names in the docs and quick start.

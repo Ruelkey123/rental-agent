@@ -93,3 +93,11 @@ The idea: before you sign (or while you live there), the agent reads public reco
 ## Decision 8: Rules verified against primary sources (2026-10-28)
 
 Checked each rule in `app/src/lib/rules.ts` against the NY Senate statute pages and NYC DCWP's FARE Act FAQ. Correction from the plan: the "up to twice the deposit" penalty is GOL §7-108(1-a)**(g)**, not (h). Forfeiture for missing the 14 days sits in (1-a)(e) with the deadline itself. Where I wasn't sure of the exact sub-letter, I cite §7-108(1-a) rather than guess.
+
+## Decision 9: Switched the model from Claude Sonnet 5.5 to Gemini 2.5 Flash (2026-10-29)
+
+**Why:** AI Gateway's free tier doesn't include any Claude models. The assignment says no purchases, and I wanted the panel to be able to use the live app on the free $5. Gemini 2.5 Flash is on the free tier, reads PDFs natively, and supports structured output, which is all the lease reader needs. It's also about 10× cheaper per request.
+
+**Why it was a one-line change:** the model only extracts lease facts and writes letter prose. Every legal judgment (deadlines, caps, verdicts) is deterministic code with tests, and any citation outside the checked rules list is rejected in code. So a different model can't change what the app says about the law. That's the architecture paying off.
+
+**What would change my mind:** if extraction quality on real leases is noticeably worse, paid credits for a stronger model are a cheap upgrade. AI Gateway makes it a one-string swap.
