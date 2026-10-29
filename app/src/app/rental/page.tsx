@@ -41,7 +41,7 @@ export default function RentalPage() {
             }}
             className="mt-6 rounded-md bg-ink px-4 py-2.5 font-medium text-paper hover:opacity-90"
           >
-            Upload a different PDF
+            Start over
           </button>
         </section>
         <Disclaimer />
@@ -90,7 +90,7 @@ export default function RentalPage() {
         }}
         className="mt-14 text-sm text-muted underline"
       >
-        Start over with a different lease
+        Start over
       </button>
       <Disclaimer />
     </Shell>

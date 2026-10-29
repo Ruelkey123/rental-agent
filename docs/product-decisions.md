@@ -115,3 +115,11 @@ Checked each rule in `app/src/lib/rules.ts` against the NY Senate statute pages 
 **This reverses part of Decision 7** (which cut the rights chat as "generic chatbot"). The difference: this chat's job is to *produce an action* (a sendable request), not just to talk.
 
 **Next:** real filing and booking through property-management integrations (a partnership question), sending on the renter's behalf with approval, tracking whether the landlord replied, and nudging a follow-up after a few days.
+
+## Decision 11: Sample lease only for the take-home (2026-10-29)
+
+**What:** removed "Upload your own lease." The home page has one action: **Read the sample lease** (with a link to view the PDF). The lease reader still runs live on that PDF, so it's real AI extraction, not canned data.
+
+**Why:** the panel's 60 seconds should go to the product, not to finding a PDF. And real leases contain names, addresses, and signatures. Not inviting uploads on a public demo URL avoids a privacy question I can't fully answer in a take-home (what the model provider retains, abuse of a public endpoint).
+
+**What it costs:** I can't show how it handles a messy real lease. The upload path still exists in the API (with size limits and the "couldn't read this PDF" state), so turning it back on is a small UI change. That's the first thing I'd do with real users.

@@ -1,6 +1,6 @@
 import { Disclaimer } from "@/components/Disclaimer";
 import { Shell } from "@/components/Shell";
-import { UploadLease } from "@/components/UploadLease";
+import { SampleLease } from "@/components/SampleLease";
 
 export default function Home() {
   return (
@@ -10,13 +10,13 @@ export default function Home() {
           Brokers help you sign. Rental Agent stays.
         </h1>
         <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-muted">
-          Upload your NYC lease. Rental Agent marks up anything that breaks New York law, keeps your important dates,
+          Rental Agent reads your NYC lease, marks up anything that breaks New York law, keeps your important dates,
           checks your building&rsquo;s violation record, and helps you push back when your landlord tries to keep your
           deposit.
         </p>
       </section>
 
-      <UploadLease />
+      <SampleLease />
 
       <section className="mt-14">
         <h2 className="font-semibold">What it checks</h2>
