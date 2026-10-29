@@ -4,7 +4,7 @@
 
 An agent for NYC renters that works for you *after* you sign, through the year you actually live there and the fight over your deposit at the end.
 
-**Live:** https://app-alpha-three-29.vercel.app
+**Live:** https://rental-agent-nyc.vercel.app
 
 ## Try it in 60 seconds
 1. Click **Try with a sample lease**. It's a fictional lease for a real Bronx building, with three planted problems.
