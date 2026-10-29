@@ -57,12 +57,13 @@ ${rules.join("\n")}
 
 What the letter asks for: ${ASKS[verdict.ask]}
 
-Style: firm, polite, plain English. Under 300 words. Ask for a response within 10 days. Use [brackets] for anything unknown, like the tenant's forwarding address. Don't cite any law not listed above, and don't threaten anything beyond what those rules say. Output only the letter.`;
+Style: firm, polite, plain English. Under 300 words. Ask for a response within 10 days. Use [brackets] for anything unknown, like the tenant's forwarding address. Don't cite any law not listed above, and don't threaten anything beyond what those rules say. Output only the letter, as plain text with no markdown.`;
 
   try {
     // Prompting alone can't guarantee the model stays inside our rules, so check, and retry once.
     for (let attempt = 0; attempt < 2; attempt++) {
-      const { text } = await generateText({ model: MODEL, prompt });
+      const { text: raw } = await generateText({ model: MODEL, prompt });
+      const text = raw.replace(/\*\*(.+?)\*\*/g, "$1");
       const stray = unknownCitations(text);
       if (stray.length === 0) return Response.json({ letter: text });
       console.error("letter cited law outside RULES:", stray.join(", "));

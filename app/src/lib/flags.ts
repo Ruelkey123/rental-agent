@@ -31,7 +31,10 @@ function deterministicFlags(lease: Lease): Flag[] {
     if (tooHigh || tooSoon) {
       const reasons = [
         tooHigh && `${money(fee.amount!)} is over the ${money(cap)} cap`,
-        tooSoon && `it kicks in after ${fee.graceDays} day${fee.graceDays === 1 ? "" : "s"} instead of 5`,
+        tooSoon &&
+          (fee.graceDays === 0
+            ? "it kicks in right away instead of after 5 days"
+            : `it kicks in after ${fee.graceDays} day${fee.graceDays === 1 ? "" : "s"} instead of 5`),
       ].filter(Boolean);
       flags.push({
         ruleId: "late-fee-cap",

@@ -61,4 +61,9 @@ describe("POST /api/letter", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     expect((await post({ lease: theLease, charge })).status).toBe(502);
   });
+
+  test("markdown bold is stripped so the letter is plain text", async () => {
+    generateText.mockResolvedValue({ text: "**Subject: Deposit**\n\nDear Landlord," });
+    expect(await (await post({ lease: theLease, charge })).json()).toEqual({ letter: "Subject: Deposit\n\nDear Landlord," });
+  });
 });

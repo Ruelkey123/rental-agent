@@ -64,4 +64,10 @@ describe("computeFlags", () => {
   test("an all-null lease returns no flags and does not throw", () => {
     expect(computeFlags(emptyLease())).toEqual([]);
   });
+
+  test("a late fee with no grace period says so in words", () => {
+    const flag = computeFlags(lease({ monthlyRent: 2500, lateFee: { amount: 150, graceDays: 0 } }))[0];
+    expect(flag.explanation).toContain("right away");
+    expect(flag.explanation).not.toContain("0 days");
+  });
 });
