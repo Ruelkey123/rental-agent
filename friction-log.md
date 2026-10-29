@@ -25,3 +25,13 @@ Screenshots go in `./screenshots/`.
 
 **💡 create-next-app ships an AGENTS.md telling AI tools "This is NOT the Next.js you know"**
 - New projects include a file pointing coding agents at the bundled docs in `node_modules/next/dist/docs`. Useful: it's how we found that `cacheComponents` is on by default, which removes `revalidate` route config. A clear signal Vercel is designing for AI-assisted development.
+
+### Deploying
+
+**🟡 Project named after the subfolder, not the GitHub repo**
+- **Trying to:** import my GitHub repo `rental-agent` into Vercel. The Next.js app lives in a subfolder, so I set Root Directory to `app`.
+- **What happened:** Vercel named the project **"app"** and gave it the address `app-alpha-three-29.vercel.app`. I renamed the project to "rental-agent" in Settings → General. The name changed, but **the URL stayed `app-alpha-three-29`**. To get a clean address I had to add a domain by hand.
+- **What I expected:** the project name comes from the **GitHub repo name** (`rental-agent`), which is what I'd already named it. A subfolder called `app` says nothing about what the project is. If I do rename, I'd expect the default `.vercel.app` URL to follow, or at least a prompt asking "update your URL too?"
+- **How I moved forward:** renamed in Settings → General, then added a domain in Settings → Domains.
+- **Why it matters:** monorepos and `app/` or `web/` subfolders are common, so this default probably catches a lot of people. And the bad URL is the one you share first. The fix seems small: default to the repo name, and show the name field next to Root Directory so you see the result before you deploy.
+- Screenshot: `screenshots/` (add one of Settings → General if you have it)
