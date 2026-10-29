@@ -33,5 +33,6 @@ Screenshots go in `./screenshots/`.
 - **What happened:** Vercel named the project **"app"** and gave it the address `app-alpha-three-29.vercel.app`. I renamed the project to "rental-agent" in Settings → General. The name changed, but **the URL stayed `app-alpha-three-29`**. To get a clean address I had to add a domain by hand.
 - **What I expected:** the project name comes from the **GitHub repo name** (`rental-agent`), which is what I'd already named it. A subfolder called `app` says nothing about what the project is. If I do rename, I'd expect the default `.vercel.app` URL to follow, or at least a prompt asking "update your URL too?"
 - **How I moved forward:** renamed in Settings → General, then added a domain in Settings → Domains.
+- **Then:** after the rename, the project switcher at the top of the AI Gateway page still said **"app"**, even after a refresh. The CLI (`vercel project ls`) showed only one project, correctly named `rental-agent`. So the rename worked, but part of the dashboard kept the stale name. That made me doubt whether the rename had saved at all.
 - **Why it matters:** monorepos and `app/` or `web/` subfolders are common, so this default probably catches a lot of people. And the bad URL is the one you share first. The fix seems small: default to the repo name, and show the name field next to Root Directory so you see the result before you deploy.
-- Screenshot: `screenshots/` (add one of Settings → General if you have it)
+- Screenshots: `screenshots/stale-project-name-after-rename.png` (header still says "app")
